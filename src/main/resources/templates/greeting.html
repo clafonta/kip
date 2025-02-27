@@ -2,106 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Greeting Page with Alpine.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greeting Page with Alpine.js and Tailwind CSS</title>
     <!-- Alpine.js CDN -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        h1 {
-            color: #333;
-        }
-        .message {
-            color: #0066cc;
-            font-weight: bold;
-        }
-        .date {
-            color: #666;
-            font-style: italic;
-        }
-        .interactive-section {
-            margin-top: 30px;
-            padding: 15px;
-            background-color: #eef6ff;
-            border-radius: 5px;
-        }
-        .counter-button {
-            padding: 8px 15px;
-            background-color: #0066cc;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-        .counter-button:hover {
-            background-color: #0055aa;
-        }
-        .counter-display {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .todo-input {
-            padding: 8px;
-            width: 70%;
-            margin-right: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .todo-item {
-            margin: 8px 0;
-            padding: 8px;
-            background-color: white;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-        }
-        .completed {
-            text-decoration: line-through;
-            color: #888;
-        }
-    </style>
+    <!-- Tailwind CSS CDN -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
-<div class="container">
-    <h1>Welcome to My Spring Boot Application</h1>
-    <p class="message" th:text="${message}">Default message</p>
-    <p class="date">Current date and time: <span th:text="${currentDate}">Date here</span></p>
+<body class="bg-gray-100">
+<div class="max-w-3xl mx-auto my-8 p-6 bg-white rounded-lg shadow-md">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Welcome to My Spring Boot Application</h1>
+    <p class="text-blue-600 font-semibold mb-2" th:text="${message}">Default message</p>
+    <p class="text-gray-500 italic mb-6">Current date and time: <span th:text="${currentDate}">Date here</span></p>
 
-    <div>
-        <h2>Thymeleaf Features Demo</h2>
-        <p>Conditional rendering:</p>
-        <div th:if="${message.length() > 10}">The message is longer than 10 characters.</div>
-        <div th:unless="${message.length() > 10}">The message is 10 characters or less.</div>
+    <div class="mb-8">
+        <h2 class="text-xl font-semibold text-gray-700 mb-3">Thymeleaf Features Demo</h2>
+        <p class="mb-2">Conditional rendering:</p>
+        <div class="p-2 bg-green-100 rounded mb-2" th:if="${message.length() > 10}">The message is longer than 10 characters.</div>
+        <div class="p-2 bg-yellow-100 rounded mb-2" th:unless="${message.length() > 10}">The message is 10 characters or less.</div>
 
-        <p>Iteration example:</p>
-        <ul>
-            <li th:each="i : ${#numbers.sequence(1, 5)}" th:text="'Item ' + ${i}">Item</li>
+        <p class="mb-2">Iteration example:</p>
+        <ul class="list-disc pl-5">
+            <li class="mb-1" th:each="i : ${#numbers.sequence(1, 5)}" th:text="'Item ' + ${i}">Item</li>
         </ul>
     </div>
 
-    <!-- Alpine.js Interactive Elements -->
-    <div class="interactive-section">
-        <h2>Alpine.js Interactive Features</h2>
+    <!-- Alpine.js Interactive Elements with Tailwind styling -->
+    <div class="bg-blue-50 p-5 rounded-lg">
+        <h2 class="text-xl font-semibold text-gray-700 mb-4">Alpine.js Interactive Features</h2>
 
         <!-- Simple Counter Component -->
-        <div x-data='{count: 0}' class="mb-4">
-            <h3>Counter Example</h3>
-            <button class="counter-button" x-on:click="count++">Increment</button>
-            <button class="counter-button" x-on:click="count--">Decrement</button>
-            <button class="counter-button" x-on:click="count = 0">Reset</button>
-            <span class="counter-display" x-text="count"></span>
+        <div x-data='{count: 0}' class="mb-6 p-4 bg-white rounded-md shadow-sm">
+            <h3 class="text-lg font-medium text-gray-700 mb-3">Counter Example</h3>
+            <div class="flex items-center space-x-3">
+                <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                        x-on:click="count++">Increment</button>
+                <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                        x-on:click="count--">Decrement</button>
+                <button class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                        x-on:click="count = 0">Reset</button>
+                <span class="text-xl font-bold ml-3" x-text="count"></span>
+            </div>
         </div>
 
         <!-- Todo List Component -->
@@ -119,23 +60,28 @@
                 removeTodo(index) {
                     this.todos.splice(index, 1);
                 }
-            }'>
-            <h3>Todo List Example</h3>
-            <div>
-                <input type="text" class="todo-input" x-model="newTodo" placeholder="Add a new task..."
-                       @keyup.enter="addTodo()">
-                <button class="counter-button" @click="addTodo()">Add</button>
+            }' class="mb-6 p-4 bg-white rounded-md shadow-sm">
+            <h3 class="text-lg font-medium text-gray-700 mb-3">Todo List Example</h3>
+            <div class="flex mb-4">
+                <input type="text" class="flex-1 px-4 py-2 border border-gray-300 rounded-l focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       x-model="newTodo" placeholder="Add a new task..." @keyup.enter="addTodo()">
+                <button class="px-4 py-2 bg-blue-600 text-white rounded-r hover:bg-blue-700 transition"
+                        @click="addTodo()">Add</button>
             </div>
 
             <template x-if="todos.length === 0">
-                <p>No tasks yet. Add one above!</p>
+                <p class="text-gray-500 italic">No tasks yet. Add one above!</p>
             </template>
 
             <template x-for="(todo, index) in todos" :key="index">
-                <div class="todo-item">
-                    <input type="checkbox" x-model="todo.completed" @click="toggleTodo(index)">
-                    <span x-text="todo.text" :class="{ 'completed': todo.completed }" style="margin: 0 10px; flex-grow: 1;"></span>
-                    <button @click="removeTodo(index)" style="background: #ff6b6b; color: white; border: none; border-radius: 4px; padding: 3px 8px; cursor: pointer;">Delete</button>
+                <div class="flex items-center p-3 mb-2 bg-gray-50 rounded border border-gray-200">
+                    <input type="checkbox" class="h-5 w-5 text-blue-600" x-model="todo.completed" @click="toggleTodo(index)">
+                    <span x-text="todo.text" :class="{'line-through text-gray-400': todo.completed}"
+                          class="flex-1 mx-3"></span>
+                    <button @click="removeTodo(index)"
+                            class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">
+                        Delete
+                    </button>
                 </div>
             </template>
         </div>
@@ -146,13 +92,23 @@
                 get uppercaseText() { return this.inputText.toUpperCase() },
                 get lowercaseText() { return this.inputText.toLowerCase() },
                 get characterCount() { return this.inputText.length }
-            }' class="mt-4">
-            <h3>Text Transformer Example</h3>
-            <input type="text" class="todo-input" x-model="inputText" placeholder="Type something...">
-            <div style="margin-top: 10px;">
-                <p><strong>Uppercase:</strong> <span x-text="uppercaseText"></span></p>
-                <p><strong>Lowercase:</strong> <span x-text="lowercaseText"></span></p>
-                <p><strong>Character Count:</strong> <span x-text="characterCount"></span></p>
+            }' class="p-4 bg-white rounded-md shadow-sm">
+            <h3 class="text-lg font-medium text-gray-700 mb-3">Text Transformer Example</h3>
+            <input type="text" class="w-full px-4 py-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                   x-model="inputText" placeholder="Type something...">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-3 bg-gray-50 rounded border border-gray-200">
+                    <p class="font-semibold mb-1">Uppercase:</p>
+                    <p x-text="uppercaseText" class="text-blue-600"></p>
+                </div>
+                <div class="p-3 bg-gray-50 rounded border border-gray-200">
+                    <p class="font-semibold mb-1">Lowercase:</p>
+                    <p x-text="lowercaseText" class="text-green-600"></p>
+                </div>
+                <div class="p-3 bg-gray-50 rounded border border-gray-200">
+                    <p class="font-semibold mb-1">Character Count:</p>
+                    <p x-text="characterCount" class="text-purple-600 font-bold"></p>
+                </div>
             </div>
         </div>
     </div>

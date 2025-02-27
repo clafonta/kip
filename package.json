@@ -1,0 +1,11 @@
+{
+  "name": "my-spring-app",
+  "version": "1.0.0",
+  "description": "Spring Boot with Tailwind CSS",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/main/resources/static/css/input.css -o ./src/main/resources/static/css/styles.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
